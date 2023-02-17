@@ -4,12 +4,13 @@ const requests = require('requests');
 
 const homeFile = fs.readFileSync("home.html", "utf8");
 const replaceVal = (tempval,orgval) => {
-    let temperature = tempval.replace("{%tempval%}", orgval.main.temp);
-    temperature = temperature.replace("{%tempmin%}", orgval.main.temp_min);
-    temperature = temperature.replace("{%tempmax%}", orgval.main.temp_max);
+    let temperature = tempval.replace("{%tempval%}", parseFloat(orgval.main.temp-273).toFixed(2));
+    temperature = temperature.replace("{%tempmin%}", parseFloat(orgval.main.temp_min-273).toFixed(2));
+    temperature = temperature.replace("{%tempmax%}", parseFloat(orgval.main.temp_max-273).toFixed(2));
     temperature = temperature.replace("{%location%}", orgval.name);
     temperature = temperature.replace("{%country%}", orgval.sys.country);
     temperature = temperature.replace("{%tempstatus%}", orgval.weather[0].main);
+    temperature = temperature.replace("{%humidity%}",orgval.main.humidity);
     return temperature;
 };
 
